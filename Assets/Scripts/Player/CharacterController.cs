@@ -1,11 +1,20 @@
+using System;
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
+    public static CharacterController instance;
     GameManager _gameManager;
     
     Transform _playerTransform;
     [SerializeField] float moveSpeed = 5f;
+    
+    public float health = 30f;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Start()
     {

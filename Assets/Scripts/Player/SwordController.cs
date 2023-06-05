@@ -1,33 +1,30 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SwordController : MonoBehaviour
 {
-    Camera _camera;
-    Transform _playerTransform;
-    public bool _isAnimationPlayed;
+    
+    bool _isAnimationPlayed;
+    
     Animator _animator;
     BoxCollider2D _collider;
+    CharacterController _playerSc;
 
     private void Awake()
     {
-        _camera = Camera.main;
-        _playerTransform = GameObject.FindWithTag("Player").transform;
-        _animator = transform.GetChild(0).GetComponent<Animator>();
-        _collider = GetComponent<BoxCollider2D>();
+        _animator = GetComponent<Animator>();
+        _collider = transform.parent.GetComponent<BoxCollider2D>();
     }
-    
+
+    private void Start()
+    {
+        _playerSc = CharacterController.instance;
+    }
+
     private void Update()
     {
-        var mousePos = Input.mousePosition;  
-        mousePos.z = -_camera.transform.position.z;  
-        var worldPos = _camera.ScreenToWorldPoint(mousePos);
-
-        var transform1 = transform;
-        var spriteDirection = worldPos - transform1.position;  
-        transform1.up = spriteDirection;
-        transform1.position = _playerTransform.position;
-        
         if (Input.GetMouseButtonDown(0)) OnClick();
     }
 
@@ -46,4 +43,6 @@ public class SwordController : MonoBehaviour
         _isAnimationPlayed = false;
         _collider.enabled = false;
     }
+
+    
 }
