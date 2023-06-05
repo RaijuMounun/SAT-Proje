@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class SwordController : MonoBehaviour
 {
@@ -10,17 +8,11 @@ public class SwordController : MonoBehaviour
     
     Animator _animator;
     BoxCollider2D _collider;
-    CharacterController _playerSc;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _collider = transform.parent.GetComponent<BoxCollider2D>();
-    }
-
-    private void Start()
-    {
-        _playerSc = CharacterController.instance;
     }
 
     private void Update()

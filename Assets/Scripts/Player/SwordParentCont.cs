@@ -16,7 +16,7 @@ public class SwordParentCont : MonoBehaviour
 
     private void Start()
     {
-        _playerSc = CharacterController.instance;
+        _playerSc = CharacterController.Instance;
         _playerTransform = _playerSc.transform;
     }
     private void Update()

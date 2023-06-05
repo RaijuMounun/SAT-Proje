@@ -1,19 +1,18 @@
-using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CharacterController : MonoBehaviour
 {
-    public static CharacterController instance;
+    public static CharacterController Instance;
     GameManager _gameManager;
+    [HideInInspector] public StatController statController;
     
     Transform _playerTransform;
-    [SerializeField] float moveSpeed = 5f;
-    
-    public float health = 30f;
 
     private void Awake()
     {
-        instance = this;
+        Instance = this;
+        statController = GetComponent<StatController>();
     }
 
     void Start()
@@ -30,6 +29,8 @@ public class CharacterController : MonoBehaviour
         
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
-        _playerTransform.position += new Vector3(horizontal, vertical, 0) * (moveSpeed * Time.deltaTime);
+        _playerTransform.position += new Vector3(horizontal, vertical, 0) * (statController.moveSpeed * Time.deltaTime);
     }
+
+    
 }

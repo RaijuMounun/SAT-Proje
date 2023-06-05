@@ -1,34 +1,30 @@
-using System;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    CharacterController playerSc;
-    Rigidbody2D rb;
+    CharacterController _playerSc;
+    StatController _playerStatCon;
     
     public float speed = 5f;
     public float health;
     public Vector2 damageRange;
-    public bool isDead;
-    public bool playerColliding;
+    
+    bool _isDead;
+    bool _playerColliding;
 
     public float timer, time;
 
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        timer = time-0.1f;
-    }
-
     private void Start()
     {
-        playerSc = CharacterController.instance;
+        _playerSc = CharacterController.Instance;
+        _playerStatCon = _playerSc.statController;
+        timer = time-0.1f;
     }
 
     private void Update()
     {
-        if(isDead) return;
-        var goPlayer = Vector2.MoveTowards(transform.position, playerSc.transform.position, speed * Time.deltaTime);
+        if(_isDead) return;
+        var goPlayer = Vector2.MoveTowards(transform.position, _playerSc.transform.position, speed * Time.deltaTime);
         transform.position = goPlayer;
         
         Attack();
@@ -37,26 +33,26 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if(other.gameObject.CompareTag("Player")) playerColliding = true;
+        if(other.gameObject.CompareTag("Player")) _playerColliding = true;
     }
     private void OnCollisionExit2D(Collision2D other)
     {
-        if(other.gameObject.CompareTag("Player")) playerColliding = false;
+        if(other.gameObject.CompareTag("Player")) _playerColliding = false;
     }
 
     void Attack()
     {
-        if(!playerColliding) return;
+        if(!_playerColliding) return;
         timer += Time.deltaTime;
         if(timer < time) return;
-        playerSc.health -= UnityEngine.Random.Range((float)damageRange.x, (float)damageRange.y);
+        _playerStatCon.health -= Random.Range((float)damageRange.x, (float)damageRange.y);
         timer = 0;
     }
 
     void Die()
     {
         if(health > 0) return;
-        isDead = true;
+        _isDead = true;
         Destroy(gameObject, 2f);
     }
 }
