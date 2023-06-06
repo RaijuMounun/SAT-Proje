@@ -7,18 +7,20 @@ public class EnemyController : MonoBehaviour
     
     public float speed = 5f;
     public float health;
+    public float timer, time;
     public Vector2 damageRange;
     
     bool _isDead;
     bool _playerColliding;
+    BoxCollider2D _collider2D;
 
-    public float timer, time;
 
     private void Start()
     {
         _playerSc = CharacterController.Instance;
         _playerStatCon = _playerSc.statController;
         timer = time-0.1f;
+        _collider2D = GetComponent<BoxCollider2D>();
     }
 
     private void Update()
@@ -42,16 +44,17 @@ public class EnemyController : MonoBehaviour
 
     void Attack()
     {
-        if(!_playerColliding) return;
+        if(!_playerColliding || _isDead) return; //Return if not colliding with player or dead
         timer += Time.deltaTime;
-        if(timer < time) return;
-        _playerStatCon.health -= Random.Range((float)damageRange.x, (float)damageRange.y);
-        timer = 0;
+        if(timer < time) return; //Return if cooldown not finished
+        _playerStatCon.health -= Random.Range((float)damageRange.x, (float)damageRange.y); //Damage
+        timer = 0; //Reset cooldown
     }
 
     void Die()
     {
         if(health > 0) return;
+        _collider2D.enabled = false;
         _isDead = true;
         Destroy(gameObject, 2f);
     }
