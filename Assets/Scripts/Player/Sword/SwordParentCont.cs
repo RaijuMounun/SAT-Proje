@@ -10,13 +10,10 @@ public class SwordParentCont : MonoBehaviour
     Transform _playerTransform;
     CharacterController _playerSc;
     
-    private void Awake()
-    {
-        _camera = Camera.main;
-    }
-
+    
     private void Start()
     {
+        _camera = Camera.main;
         _playerSc = CharacterController.Instance;
         _playerTransform = _playerSc.transform;
     }
@@ -26,29 +23,33 @@ public class SwordParentCont : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        StartCoroutine(Hit(other));
+        Hit(other);
     }
 
     void SwordMovement()
     {
         //Get mouse position
-        var mousePos = Input.mousePosition;  
-        mousePos.z = -_camera.transform.position.z;  
-        var worldPos = _camera.ScreenToWorldPoint(mousePos);
+        var mousePos = Input.mousePosition; //Get mouse position
+        mousePos.z = -_camera.transform.position.z;  //Set z to be the distance from the camera
+        var worldPos = _camera.ScreenToWorldPoint(mousePos); //Convert to world position
         //Turn sword to mouse position
         var transform1 = transform;
-        var spriteDirection = worldPos - transform1.position;  
-        transform1.up = spriteDirection;
-        transform1.position = _playerTransform.position;
+        var spriteDirection = worldPos - transform1.position;  //Get direction
+        transform1.up = spriteDirection; //Turn to direction
+        transform1.position = _playerTransform.position; //Set position to player position
     }
 
-    IEnumerator Hit(Collider2D otherCol)
+    void Hit(Collider2D otherCol)
     {
-        if (!otherCol.CompareTag("Enemy")) yield return null; //Return if not enemy
+        if (!otherCol.CompareTag("Enemy")) return; //Return if not enemy
         otherCol.GetComponent<EnemyController>().health -= Random.Range((float)damageRange.x, (float)damageRange.y); //Damage
+        StartCoroutine(KnockBack(otherCol));
+    }
 
-        yield return new WaitForSeconds(0.3f);
-        var direction = (otherCol.transform.position - _playerTransform.position).normalized; //Direction for knockback
-        otherCol.transform.position += direction * 1f; //Knockback
+    IEnumerator KnockBack(Collider2D col)
+    {
+        yield return new WaitForSeconds(.3f);
+        var direction = (col.transform.position - _playerTransform.position).normalized; //Direction for knockback
+        col.transform.position += direction * 1f; //Knockback
     }
 }

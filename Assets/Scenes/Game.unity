@@ -260,11 +260,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 729f496bb2f09f249b7115ba62ad50c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
-  cDTime: 1
   spellSpeed: 5
-  spellDamageRange: {x: 2, y: 4}
   knockBackPower: 0.4
+  spellLifeTime: 1.49
+  spellDamageRange: {x: 2, y: 4}
+  cDTime: 1
   spellPoolSize: 20
   spellPrefab: {fileID: 524388674912621075, guid: d005a31175c464b4eb4dccaa5c7dd92a, type: 3}
 --- !u!4 &385652672

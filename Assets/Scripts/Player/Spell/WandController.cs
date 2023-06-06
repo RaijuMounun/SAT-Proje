@@ -9,12 +9,11 @@ public class WandController : MonoBehaviour
     GameObject _spellParent;
     CharacterController _playerSc;
     int _counter;
+    float _timer;
 
-    public float timer, cDTime;
-
-    public float spellSpeed;
+    public float spellSpeed, knockBackPower, spellLifeTime;
     public Vector2 spellDamageRange;
-    public float knockBackPower;
+    [SerializeField] float cDTime;
     [SerializeField] int spellPoolSize;
     [SerializeField] GameObject spellPrefab;
 
@@ -23,7 +22,7 @@ public class WandController : MonoBehaviour
         if(Instance == null) Instance = this;
         _camera = Camera.main;
         _spellParent = GameObject.Find("SpellParent");
-        timer = cDTime - 0.01f;
+        _timer = cDTime - 0.01f;
     }
 
     private void Start()
@@ -36,8 +35,8 @@ public class WandController : MonoBehaviour
     private void Update()
     {
         Rotation();
-        timer += Time.deltaTime;
         
+        _timer += Time.deltaTime;
         if(Input.GetMouseButtonDown(0)) OnClick();
     }
 
@@ -45,14 +44,14 @@ public class WandController : MonoBehaviour
     void Rotation()
     {
         //Get mouse position
-        var mousePos = Input.mousePosition;  
-        mousePos.z = -_camera.transform.position.z;  
-        var worldPos = _camera.ScreenToWorldPoint(mousePos);
+        var mousePos = Input.mousePosition;  //Get mouse position
+        mousePos.z = -_camera.transform.position.z;  //Set z to be the distance from the camera
+        var worldPos = _camera.ScreenToWorldPoint(mousePos); //Convert mouse position to world position
         //Turn to mouse position
         var transform1 = transform;
-        var spriteDirection = worldPos - transform1.position;  
-        transform1.up = spriteDirection;
-        transform1.position = _playerTransform.position;
+        var spriteDirection = worldPos - transform1.position;  //Get direction to mouse position
+        transform1.up = spriteDirection; //Turn to mouse position
+        transform1.position = _playerTransform.position; //Set position to player position
     }
 
     void SpellPool(int poolSize, GameObject prefab)
@@ -68,11 +67,15 @@ public class WandController : MonoBehaviour
 
     void OnClick()
     {
-        if(timer < cDTime) return; //Cooldown
-        timer = 0f; //Reset timer
+        if(_timer < cDTime) return; //Cooldown
+        _timer = 0f; //Reset timer
         _counter++; //Increase counter
         if (_counter >= spellPoolSize) _counter = 0; //Reset counter if it's bigger than pool size
-        
+        CastSpell();
+    }
+
+    void CastSpell()
+    {
         var spell = _spellParent.transform.GetChild(_counter).gameObject; //Get spell from pool
         spell.transform.up = transform.up; //Turn spell to mouse position
         spell.SetActive(true); //Activate spell
