@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class SwordController : MonoBehaviour
 {
-    
+    GameManager _gameManager;
     bool _isAnimationPlayed;
     
     Animator _animator;
@@ -15,8 +16,14 @@ public class SwordController : MonoBehaviour
         _collider = transform.parent.GetComponent<BoxCollider2D>();
     }
 
+    private void Start()
+    {
+        _gameManager = GameManager.instance;
+    }
+
     private void Update()
     {
+        if(_gameManager.isGamePaused || !_gameManager.isRunStarted) return;
         if (Input.GetMouseButtonDown(0)) OnClick();
     }
 

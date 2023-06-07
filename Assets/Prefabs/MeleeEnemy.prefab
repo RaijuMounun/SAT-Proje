@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 9049888018455540710}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.4595, y: 2.4275, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
+  m_LocalScale: {x: 5.2684574, y: 5.2684574, z: 7.526367}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -76,8 +76,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.77254903, g: 0.13333334, b: 0.2, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 11c81b3f94abd88499a1e24eca129708, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -100,18 +100,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.00082430243, y: -0.0015285984}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.32, y: 0.32}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.3059321, y: 0.31981176}
   m_EdgeRadius: 0
 --- !u!114 &9049888018455540711
 MonoBehaviour:
@@ -125,11 +125,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28d4ec33ed199d249a3d2dcc54ca0c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 0
   speed: 1
   health: 10
   timer: 0
   time: 1
+  range: 0
   damageRange: {x: 3, y: 5}
+  bulletPrefab: {fileID: 8892397779878843171, guid: 0b07c62b79e22d140adf2a454e1b0e85, type: 3}
+  firePrefab: {fileID: 6742185759424274796, guid: 64498987cdf690c4392ff19d0b412219, type: 3}
 --- !u!50 &9049888018455540715
 Rigidbody2D:
   serializedVersion: 4
@@ -142,7 +146,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 1
-  m_Mass: 0.48999998
+  m_Mass: 2.715729
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0

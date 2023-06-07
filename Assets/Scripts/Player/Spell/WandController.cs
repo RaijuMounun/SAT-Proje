@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class WandController : MonoBehaviour
 {
-    public static WandController Instance;
     
     Camera _camera;
     Transform _playerTransform;
     GameObject _spellParent;
     CharacterController _playerSc;
+    GameManager _gameManager;
     int _counter;
     float _timer;
 
@@ -19,7 +19,6 @@ public class WandController : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null) Instance = this;
         _camera = Camera.main;
         _spellParent = GameObject.Find("SpellParent");
         _timer = cDTime - 0.01f;
@@ -27,6 +26,7 @@ public class WandController : MonoBehaviour
 
     private void Start()
     {
+        _gameManager = GameManager.instance;
         _playerSc = CharacterController.Instance;
         _playerTransform = _playerSc.transform;
         SpellPool(spellPoolSize, spellPrefab);
@@ -34,6 +34,7 @@ public class WandController : MonoBehaviour
 
     private void Update()
     {
+        if (_gameManager.isGamePaused || !_gameManager.isRunStarted) return;
         Rotation();
         
         _timer += Time.deltaTime;

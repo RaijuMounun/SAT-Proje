@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour
@@ -31,5 +33,21 @@ public class CharacterController : MonoBehaviour
         _playerTransform.position += new Vector3(horizontal, vertical, 0) * (statController.moveSpeed * Time.deltaTime);
     }
 
-    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        EnemyBulletHit(other);
+        BossFireHit(other);
+    }
+
+    void BossFireHit(Collider2D other)
+    {
+        if(!other.gameObject.name.Contains("BossFire")) return;
+        statController.health -= 7f;
+    }
+
+    void EnemyBulletHit(Collider2D other)
+    {
+        if(!other.gameObject.name.Contains("EnemyBullet")) return;
+        statController.health -= 3f;
+    }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -5,16 +6,15 @@ using Random = UnityEngine.Random;
 public class SpellController : MonoBehaviour
 {
     
-    WandController _wandController;
+    public WandController _wandController;
 
     Vector3 _direction;
     float _timer;
     bool _isHit;
 
-
     private void Awake()
     {
-        _wandController = WandController.Instance;
+        _wandController = GameObject.Find("Wand").GetComponent<WandController>();
     }
 
     private void OnEnable()
@@ -31,7 +31,11 @@ public class SpellController : MonoBehaviour
         var transform1 = transform;
         transform1.position += transform1.up * (_wandController.spellSpeed * Time.deltaTime);
         _timer += Time.deltaTime;
-        if (_timer >= _wandController.spellLifeTime && !_isHit) gameObject.SetActive(false);
+        if (_timer >= _wandController.spellLifeTime && !_isHit)
+        {
+            gameObject.SetActive(false);
+            _timer = 0;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -44,6 +48,7 @@ public class SpellController : MonoBehaviour
         if(!otherCol.CompareTag("Enemy"))return; //Return if not enemy
         otherCol.GetComponent<EnemyController>().health -= Random.Range((float)_wandController.spellDamageRange.x, (float)_wandController.spellDamageRange.y); //Damage
         _isHit = true;
+        otherCol.GetComponent<EnemyController>().BossAttack();
         StartCoroutine(KnockBack(otherCol));
         StartCoroutine(DeactivateSelf());
     }
@@ -59,4 +64,6 @@ public class SpellController : MonoBehaviour
         _isHit = false;
         gameObject.SetActive(false);
     }
+
+    
 }

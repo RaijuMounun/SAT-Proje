@@ -9,16 +9,19 @@ public class SwordParentCont : MonoBehaviour
     Camera _camera;
     Transform _playerTransform;
     CharacterController _playerSc;
+    GameManager _gameManager;
     
     
     private void Start()
     {
+        _gameManager = GameManager.instance;
         _camera = Camera.main;
         _playerSc = CharacterController.Instance;
         _playerTransform = _playerSc.transform;
     }
     private void Update()
     {
+        if (_gameManager.isGamePaused || !_gameManager.isRunStarted) return;
         SwordMovement();
     }
     private void OnTriggerEnter2D(Collider2D other)
@@ -43,6 +46,7 @@ public class SwordParentCont : MonoBehaviour
     {
         if (!otherCol.CompareTag("Enemy")) return; //Return if not enemy
         otherCol.GetComponent<EnemyController>().health -= Random.Range((float)damageRange.x, (float)damageRange.y); //Damage
+        otherCol.GetComponent<EnemyController>().BossAttack();
         StartCoroutine(KnockBack(otherCol));
     }
 
