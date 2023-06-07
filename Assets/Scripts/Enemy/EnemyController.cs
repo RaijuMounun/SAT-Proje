@@ -30,7 +30,7 @@ public class EnemyController : MonoBehaviour
         _collider2D = GetComponent<Collider2D>();
     }
 
-    private void Update()
+    private void Update() //Her frame'de çağırılır
     {
         if(_isDead) return;
         if(_gameManager.isGamePaused) return;

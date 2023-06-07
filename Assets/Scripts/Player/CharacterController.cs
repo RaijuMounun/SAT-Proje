@@ -1,6 +1,7 @@
 using System;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class CharacterController : MonoBehaviour
     [HideInInspector] public StatController statController;
     
     Transform _playerTransform;
+    [SerializeField] Image healthBar;
 
     private void Awake()
     {
@@ -22,7 +24,11 @@ public class CharacterController : MonoBehaviour
         _playerTransform = GetComponent<Transform>();
     }
 
-    void FixedUpdate() { Movement(); }
+    void FixedUpdate()
+    {
+        Movement();
+        healthBar.fillAmount = statController.health / statController.maxHealth;
+    }
 
     void Movement()
     {
@@ -43,11 +49,21 @@ public class CharacterController : MonoBehaviour
     {
         if(!other.gameObject.name.Contains("BossFire")) return;
         statController.health -= 7f;
+        CheckIfDead();
     }
 
     void EnemyBulletHit(Collider2D other)
     {
         if(!other.gameObject.name.Contains("EnemyBullet")) return;
         statController.health -= 3f;
+        CheckIfDead();
+    }
+    
+    void CheckIfDead()
+    {
+        if(statController.health > 0) return;
+        _gameManager.isRunStarted = false;
+        _gameManager.isGamePaused = true;
+        _gameManager.canvasesArray[1].SetActive(true);
     }
 }

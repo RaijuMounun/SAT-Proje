@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     {
         instance ??= this;
         canvasesArray[0].SetActive(true);
+        canvasesArray[1].SetActive(false);
     }
     
     public void StartRun()
