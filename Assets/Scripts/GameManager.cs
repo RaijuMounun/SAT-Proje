@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum Weapons {Wand, Sword, Bow, Spear}
@@ -12,11 +13,15 @@ public class GameManager : MonoBehaviour
     public GameObject[] weapons;
 
 
+    [HideInInspector]public List<GameObject> chestsArray = new List<GameObject>();
+
+
     private void Awake()
     {
         instance ??= this;
         canvasesArray[0].SetActive(true);
         canvasesArray[1].SetActive(false);
+        canvasesArray[3].SetActive(false);
     }
     
     public void StartRun()
@@ -31,5 +36,10 @@ public class GameManager : MonoBehaviour
         currentWeapon = (Weapons) index;
         foreach (var weapon in weapons) weapon.SetActive(false);
         weapons[(int) currentWeapon].SetActive(true);
+    }
+
+    public void UpgradesScreen()
+    {
+        canvasesArray[3].SetActive(!canvasesArray[3].activeInHierarchy);
     }
 }
